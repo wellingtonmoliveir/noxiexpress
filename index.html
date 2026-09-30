@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cardápio digital Noxi Express - produtos, preços, sugestões e dúvidas pelo WhatsApp.">
+  <meta name="theme-color" content="#111111">
+  <title>Noxi Express | Cardápio</title>
+
+  <style>
+    :root{
+      --bg:#f5f6f7;
+      --card:#ffffff;
+      --text:#171717;
+      --muted:#6b7280;
+      --dark:#111111;
+      --dark-2:#242424;
+      --accent:#d8ff00;
+      --accent-2:#b9dc00;
+      --border:#e5e7eb;
+      --success:#25d366;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --radius:20px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.45;
+    }
+
+    a{text-decoration:none;color:inherit}
+    button,input,textarea{font:inherit}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:rgba(17,17,17,.96);
+      backdrop-filter:blur(12px);
+      color:#fff;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .topbar-inner{
+      max-width:1180px;
+      margin:auto;
+      padding:12px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+    }
+
+    .brand-mini{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      letter-spacing:.5px;
+    }
+
+    .brand-dot{
+      width:12px;height:12px;border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 18px rgba(216,255,0,.55);
+    }
+
+    .whatsapp-top{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      padding:8px 13px;
+      border-radius:999px;
+      background:var(--success);
+      color:#fff;
+      font-size:.86rem;
+      font-weight:800;
+    }
+
+    .hero{
+      background:
+        radial-gradient(circle at 85% 20%,rgba(216,255,0,.18),transparent 30%),
+        linear-gradient(135deg,#111 0%,#202020 55%,#111 100%);
+      color:#fff;
+      padding:46px 18px 34px;
+      overflow:hidden;
+    }
+
+    .hero-inner{max-width:1180px;margin:auto}
+
+    .hero h1{
+      font-size:clamp(2.2rem,6vw,4.5rem);
+      line-height:.95;
+      font-weight:950;
+      letter-spacing:-2px;
+      max-width:700px;
+    }
+
+    .hero h1 span{color:var(--accent)}
+
+    .hero p{
+      margin-top:17px;
+      color:#d1d5db;
+      max-width:680px;
+      font-size:1.04rem;
+    }
+
+    .hero-badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+      margin-top:23px;
+    }
+
+    .badge{
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:.83rem;
+      color:#f3f4f6;
+    }
+
+    .container{
+      max-width:1180px;
+      margin:auto;
+      padding:22px 18px 55px;
+    }
+
+    .contact-card{
+      margin-top:-5px;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+
+    .contact-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:15px;
+      margin-bottom:17px;
+    }
+
+    .contact-head h2{
+      font-size:1.35rem;
+      line-height:1.1;
+    }
+
+    .contact-head p{
+      color:var(--muted);
+      font-size:.92rem;
+      margin-top:5px;
+    }
+
+    .whatsapp-icon{
+      flex:0 0 auto;
+      width:46px;height:46px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background:#e9fff1;
+      font-size:1.4rem;
+    }
+
+    .contact-form{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .field-full{grid-column:1/-1}
+
+    .field label{
+      display:block;
+      font-size:.78rem;
+      font-weight:800;
+      color:#4b5563;
+      margin:0 0 6px 3px;
+    }
+
+    .field input,.field textarea{
+      width:100%;
+      border:1px solid var(--border);
+      border-radius:13px;
+      background:#fafafa;
+      padding:12px 13px;
+      outline:none;
+      transition:.2s;
+    }
+
+    .field textarea{min-height:84px;resize:vertical}
+
+    .field input:focus,.field textarea:focus{
+      border-color:#9ca3af;
+      background:#fff;
+      box-shadow:0 0 0 4px rgba(216,255,0,.16);
+    }
+
+    .contact-actions{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:10px;
+      margin-top:4px;
+    }
+
+    .btn-whatsapp{
+      border:0;
+      cursor:pointer;
+      border-radius:13px;
+      padding:13px 18px;
+      background:var(--success);
+      color:#fff;
+      font-weight:900;
+      box-shadow:0 8px 18px rgba(37,211,102,.18);
+      transition:transform .15s,filter .15s;
+    }
+
+    .btn-whatsapp:hover{transform:translateY(-1px);filter:brightness(.97)}
+
+    .contact-note{
+      color:var(--muted);
+      font-size:.78rem;
+    }
+
+    .menu-tools{
+      margin-top:28px;
+      display:flex;
+      flex-direction:column;
+      gap:13px;
+    }
+
+    .search-box{
+      position:relative;
+    }
+
+    .search-box input{
+      width:100%;
+      padding:15px 17px 15px 46px;
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius:15px;
+      box-shadow:0 5px 18px rgba(0,0,0,.04);
+      outline:none;
+    }
+
+    .search-box span{
+      position:absolute;
+      left:16px;
+      top:50%;
+      transform:translateY(-50%);
+      color:#6b7280;
+      font-size:1.05rem;
+    }
+
+    .categories{
+      display:flex;
+      gap:8px;
+      overflow:auto;
+      padding-bottom:3px;
+      scrollbar-width:thin;
+    }
+
+    .cat-btn{
+      flex:0 0 auto;
+      border:1px solid var(--border);
+      background:#fff;
+      color:#404040;
+      padding:9px 13px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:.82rem;
+      font-weight:800;
+      transition:.18s;
+    }
+
+    .cat-btn.active{
+      background:var(--dark);
+      color:var(--accent);
+      border-color:var(--dark);
+    }
+
+    .menu-heading{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:15px;
+      margin:28px 0 14px;
+    }
+
+    .menu-heading h2{font-size:1.55rem}
+    .count{color:var(--muted);font-size:.84rem}
+
+    .products{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:13px;
+    }
+
+    .product{
+      position:relative;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:17px;
+      min-height:150px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      box-shadow:0 5px 18px rgba(0,0,0,.035);
+      transition:transform .18s,box-shadow .18s,border-color .18s;
+      animation:appear .35s ease both;
+    }
+
+    .product:hover{
+      transform:translateY(-3px);
+      box-shadow:0 12px 28px rgba(0,0,0,.08);
+      border-color:#d1d5db;
+    }
+
+    .product-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+
+    .product-icon{
+      width:40px;height:40px;
+      border-radius:12px;
+      background:#f2f3f4;
+      display:grid;
+      place-items:center;
+      font-size:1.3rem;
+    }
+
+    .product-category{
+      color:#737373;
+      font-size:.67rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+      text-align:right;
+    }
+
+    .product h3{
+      font-size:.98rem;
+      line-height:1.18;
+      margin:14px 0 12px;
+      min-height:35px;
+    }
+
+    .price{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:8px;
+    }
+
+    .price strong{
+      font-size:1.35rem;
+      letter-spacing:-.5px;
+    }
+
+    .price small{
+      color:#9ca3af;
+      font-size:.7rem;
+    }
+
+    .empty{
+      display:none;
+      text-align:center;
+      background:#fff;
+      border:1px dashed #cfd3d8;
+      border-radius:18px;
+      padding:35px 20px;
+      color:var(--muted);
+    }
+
+    .info-strip{
+      margin-top:26px;
+      border-radius:18px;
+      background:var(--dark);
+      color:#fff;
+      padding:19px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+    }
+
+    .info-strip strong{display:block;color:var(--accent)}
+    .info-strip span{font-size:.85rem;color:#d1d5db}
+
+    .footer{
+      background:#111;
+      color:#d1d5db;
+      padding:28px 18px;
+      text-align:center;
+      font-size:.82rem;
+    }
+
+    .footer strong{color:#fff}
+    .footer a{color:#d8ff00;font-weight:800}
+
+    .floating-whatsapp{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:900;
+      width:56px;height:56px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:var(--success);
+      color:#fff;
+      font-size:1.5rem;
+      box-shadow:0 10px 28px rgba(0,0,0,.22);
+      border:3px solid #fff;
+      transition:transform .2s;
+    }
+
+    .floating-whatsapp:hover{transform:scale(1.06)}
+
+    @keyframes appear{
+      from{opacity:0;transform:translateY(8px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    @media(max-width:900px){
+      .products{grid-template-columns:repeat(3,minmax(0,1fr))}
+    }
+
+    @media(max-width:680px){
+      .hero{padding-top:35px}
+      .contact-form{grid-template-columns:1fr}
+      .field-full{grid-column:auto}
+      .products{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .product{min-height:145px;padding:14px}
+      .info-strip{align-items:flex-start;flex-direction:column}
+    }
+
+    @media(max-width:420px){
+      .products{grid-template-columns:1fr 1fr;gap:9px}
+      .product h3{font-size:.9rem}
+      .price strong{font-size:1.2rem}
+      .product-icon{width:36px;height:36px}
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-mini">
+        <span class="brand-dot"></span>
+        <span>NOXI EXPRESS</span>
+      </div>
+      <a class="whatsapp-top" href="#contato">💬 Sugestões e dúvidas</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Seu mercado,<br><span>mais perto de você.</span></h1>
+      <p>
+        Confira os produtos disponíveis na Noxi Express, consulte os preços
+        e fale com a gente pelo WhatsApp para enviar sugestões, dúvidas ou
+        avisar sobre algum produto que você gostaria de encontrar.
+      </p>
+      <div class="hero-badges">
+        <span class="badge">⚡ Prático</span>
+        <span class="badge">🛒 Variedade</span>
+        <span class="badge">💬 Atendimento pelo WhatsApp</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+
+    <!-- CONTATO PRIMEIRO, COMO SOLICITADO -->
+    <section class="contact-card" id="contato">
+      <div class="contact-head">
+        <div>
+          <h2>💬 Sugestões, dúvidas ou pedidos?</h2>
+          <p>Envie sua mensagem e fale diretamente com a Noxi Express pelo WhatsApp.</p>
+        </div>
+        <div class="whatsapp-icon">💬</div>
+      </div>
+
+      <form class="contact-form" onsubmit="sendWhatsApp(event)">
+        <div class="field">
+          <label for="nome">Seu nome</label>
+          <input id="nome" type="text" placeholder="Como podemos chamar você?">
+        </div>
+
+        <div class="field">
+          <label for="assunto">Assunto</label>
+          <input id="assunto" type="text" placeholder="Ex.: sugestão de produto">
+        </div>
+
+        <div class="field field-full">
+          <label for="mensagem">Mensagem</label>
+          <textarea id="mensagem" required placeholder="Escreva sua sugestão, dúvida ou comentário..."></textarea>
+        </div>
+
+        <div class="contact-actions field-full">
+          <button class="btn-whatsapp" type="submit">📲 Enviar pelo WhatsApp</button>
+          <span class="contact-note">A mensagem será aberta no WhatsApp para você confirmar o envio.</span>
+        </div>
+      </form>
+    </section>
+
+    <section class="menu-tools" id="cardapio">
+      <div class="search-box">
+        <span>🔎</span>
+        <input id="search" type="search" placeholder="Buscar produto..." oninput="renderProducts()">
+      </div>
+
+      <div class="categories" id="categories"></div>
+    </section>
+
+    <div class="menu-heading">
+      <div>
+        <h2>Cardápio</h2>
+        <div class="count" id="count"></div>
+      </div>
+    </div>
+
+    <section class="products" id="products"></section>
+
+    <div class="empty" id="empty">
+      <strong>Nenhum produto encontrado.</strong><br>
+      Tente outro termo de busca ou escolha outra categoria.
+    </div>
+
+    <div class="info-strip">
+      <div>
+        <strong>Encontrou algum problema?</strong>
+        <span>Faltou um produto? Tem uma sugestão? Fale com a Noxi.</span>
+      </div>
+      <a class="whatsapp-top" href="#contato">Abrir contato</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <strong>NOXI EXPRESS</strong><br>
+    Avenida Doutor Cláudio José Gueiros Leite, 1776<br>
+    WhatsApp: <a href="https://wa.me/5581997352055" target="_blank" rel="noopener">(81) 99735-2055</a>
+  </footer>
+
+  <a class="floating-whatsapp" href="https://wa.me/5581997352055" target="_blank" rel="noopener" aria-label="Falar com a Noxi pelo WhatsApp">💬</a>
+
+  <script>
+    const WHATSAPP = "5581997352055";
+
+    const products = [
+      {name:"AGUA MINERAL C/GAS 500ML", price:3.40, category:"Águas", icon:"💧"},
+      {name:"AGUA MINERAL PETROPOLIS 500ML", price:2.50, category:"Águas", icon:"💧"},
+      {name:"AMENDOIM CROCANTE", price:4.50, category:"Biscoitos e Snacks", icon:"🥜"},
+      {name:"BALY 473ML LATA", price:11.99, category:"Energéticos", icon:"⚡"},
+      {name:"BARRA WHEY PROTEIN", price:12.00, category:"Saudáveis", icon:"💪"},
+      {name:"BIOSOFT COOKIES ZERO CHOCOLATE COM CHOCOLATE 100G", price:9.99, category:"Saudáveis", icon:"🍪"},
+      {name:"BISC TRELOSO 74G", price:3.50, category:"Biscoitos e Snacks", icon:"🍪"},
+      {name:"Biscoito Sol", price:4.50, category:"Biscoitos e Snacks", icon:"🍪"},
+      {name:"BOLINHO ANA MARIA 42G", price:3.50, category:"Doces e Bolos", icon:"🧁"},
+      {name:"Bolo de rolo mini", price:4.00, category:"Doces e Bolos", icon:"🍰"},
+      {name:"BROWNIE 100GR", price:6.00, category:"Doces e Bolos", icon:"🍫"},
+      {name:"CERVEJA HEINEKEN 250ML", price:9.99, category:"Bebidas", icon:"🍺"},
+      {name:"CHA LEAO GASEIF 290ML", price:5.90, category:"Bebidas", icon:"🥤"},
+      {name:"CHEETOS 39G", price:4.00, category:"Biscoitos e Snacks", icon:"🍿"},
+      {name:"CHIPS GOSTOSINHO 50G", price:8.00, category:"Biscoitos e Snacks", icon:"🥔"},
+      {name:"CLUB SOCIAL ORIGINAL", price:2.00, category:"Biscoitos e Snacks", icon:"🍪"},
+      {name:"COCA COLA ZERO LATA 350ML", price:5.90, category:"Refrigerantes", icon:"🥤"},
+      {name:"COCA COLA 350 ML", price:5.90, category:"Refrigerantes", icon:"🥤"},
+      {name:"COOKIES FUTURINHOS 100 G", price:4.50, category:"Biscoitos e Snacks", icon:"🍪"},
+      {name:"DORITOS NACHO 37GX58 PP", price:5.50, category:"Biscoitos e Snacks", icon:"🌽"},
+      {name:"ENERGETICO TNT LATA 473ML", price:10.99, category:"Energéticos", icon:"⚡"},
+      {name:"FANTA LARANJA LATA 350ML", price:5.90, category:"Refrigerantes", icon:"🥤"},
+      {name:"Fini tubes", price:2.50, category:"Doces", icon:"🍬"},
+      {name:"H2O Limoneto", price:6.49, category:"Bebidas", icon:"🍋"},
+      {name:"H2OH! LIMONETO LATA 350 ML", price:5.99, category:"Refrigerantes", icon:"🥤"},
+      {name:"KITKAT 41,5G", price:5.49, category:"Chocolates e Doces", icon:"🍫"},
+      {name:"MENTOS/MINT", price:3.50, category:"Doces", icon:"🍬"},
+      {name:"Monster energy", price:14.90, category:"Energéticos", icon:"⚡"},
+      {name:"NESFIT", price:7.99, category:"Biscoitos e Snacks", icon:"🍪"},
+      {name:"NISSIN CUP COSTELA (CNCS) 68G", price:8.99, category:"Bebidas e Prontos", icon:"🍜"},
+      {name:"Nutry BARRA DE CEREAL", price:3.50, category:"Saudáveis", icon:"🌾"},
+      {name:"Paçoca Paçofit", price:2.00, category:"Doces", icon:"🥜"},
+      {name:"PUDIM DE LEITE", price:6.90, category:"Doces e Sobremesas", icon:"🍮"},
+      {name:"RED BULL 250ML ZERO", price:11.50, category:"Energéticos", icon:"⚡"},
+      {name:"RUFFLES SAL 32G", price:5.90, category:"Biscoitos e Snacks", icon:"🥔"},
+      {name:"SALG PIPPOS 75G", price:5.50, category:"Biscoitos e Snacks", icon:"🍿"},
+      {name:"SNICKERS MINIS", price:3.50, category:"Chocolates e Doces", icon:"🍫"},
+      {name:"SPRITE ZERO LATA 350ML", price:5.90, category:"Refrigerantes", icon:"🥤"},
+      {name:"Suco del vale 450 Ml", price:6.29, category:"Bebidas", icon:"🧃"},
+      {name:"SUCO UVA 180ML", price:5.50, category:"Bebidas", icon:"🧃"},
+      {name:"TODDYNHO 200 ML", price:4.00, category:"Bebidas", icon:"🥛"},
+      {name:"WAFER BRIGADEIRO 80G", price:3.50, category:"Chocolates e Doces", icon:"🍫"},
+      {name:"YOPRO 250ML 15G", price:10.50, category:"Saudáveis", icon:"🥛"}
+    ];
+
+    let activeCategory = "Todos";
+
+    const money = value =>
+      value.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+
+    function renderCategories(){
+      const categories = ["Todos", ...new Set(products.map(p => p.category))];
+      const box = document.getElementById("categories");
+
+      box.innerHTML = categories.map(category => `
+        <button class="cat-btn ${category === activeCategory ? "active" : ""}"
+          onclick="setCategory(${JSON.stringify(category)})">
+          ${category}
+        </button>
+      `).join("");
+    }
+
+    function setCategory(category){
+      activeCategory = category;
+      renderCategories();
+      renderProducts();
+      document.getElementById("cardapio").scrollIntoView({behavior:"smooth",block:"start"});
+    }
+
+    function renderProducts(){
+      const term = document.getElementById("search").value
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"");
+
+      const filtered = products.filter(p => {
+        const text = (p.name + " " + p.category)
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g,"");
+
+        const matchesSearch = text.includes(term);
+        const matchesCategory = activeCategory === "Todos" || p.category === activeCategory;
+        return matchesSearch && matchesCategory;
+      });
+
+      const container = document.getElementById("products");
+      const empty = document.getElementById("empty");
+
+      container.innerHTML = filtered.map((p,i) => `
+        <article class="product" style="animation-delay:${Math.min(i*0.025,.3)}s">
+          <div>
+            <div class="product-top">
+              <div class="product-icon">${p.icon}</div>
+              <div class="product-category">${p.category}</div>
+            </div>
+            <h3>${p.name}</h3>
+          </div>
+          <div class="price">
+            <strong>${money(p.price)}</strong>
+            <small>preço de venda</small>
+          </div>
+        </article>
+      `).join("");
+
+      document.getElementById("count").textContent =
+        `${filtered.length} produto${filtered.length === 1 ? "" : "s"} disponível${filtered.length === 1 ? "" : "is"}`;
+
+      empty.style.display = filtered.length ? "none" : "block";
+    }
+
+    function sendWhatsApp(event){
+      event.preventDefault();
+
+      const nome = document.getElementById("nome").value.trim();
+      const assunto = document.getElementById("assunto").value.trim();
+      const mensagem = document.getElementById("mensagem").value.trim();
+
+      const texto =
+`Olá, Noxi Express! 👋
+
+${nome ? `Meu nome é ${nome}.` : ""}
+${assunto ? `\nAssunto: ${assunto}` : ""}
+
+${mensagem}
+
+Enviado pelo cardápio digital da Noxi Express.`;
+
+      window.open(
+        `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(texto)}`,
+        "_blank"
+      );
+    }
+
+    renderCategories();
+    renderProducts();
+  </script>
+
+</body>
+</html>
